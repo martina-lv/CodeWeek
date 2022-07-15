@@ -17,6 +17,35 @@ li {
   list-style: circle;
 }
 
+.active_user_card,
+.not_active_user_card,
+.driver_less_ten_card,
+.driver_less_twenty_card,
+.driver_more_twenty_card,
+p:hover {
+  cursor: pointer;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.653);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.esc {
+  margin: 0;
+  padding-right: 10px;
+  text-align: end;
+}
+
 .not_active_title,
 .drive_title {
   text-align: center;

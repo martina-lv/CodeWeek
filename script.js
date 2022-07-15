@@ -17,7 +17,7 @@
 
 // [EXTRA] Infine al click su ogni utente in pagina vorremmo mostrare una modal con i dati dell’utente e in più la sua età (non quindi la sua data di nascita, quella non la mostrare ;) ).
 
-let getRandomDate = (min, max) => {
+const getRandomDate = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
 
@@ -25,6 +25,26 @@ let getRandomDate = (min, max) => {
     Math.floor(Math.random() * (max - min + 1) + min)
   );
   return randomDate;
+};
+
+const getAge = (toDay, birthday) => {
+  let age = 0;
+
+  if (
+    toDay.getDay() > birthday.getDay() &&
+    toDay.getMonth() >= birthday.getMonth()
+  ) {
+    age = toDay.getYear() - birthday.getYear() - 1;
+  } else if (
+    toDay.getDay() >= birthday.getDay() &&
+    toDay.getMonth() < birthday.getMonth()
+  ) {
+    age = toDay.getYear() - birthday.getYear() - 1;
+  } else {
+    age = toDay.getYear() - birthday.getYear();
+  }
+
+  return age;
 };
 
 const DATABASE = "https://jsonplaceholder.typicode.com/users";
@@ -54,6 +74,9 @@ const activeUsers = [];
 const activeWrapperHTMLEl = document.getElementsByClassName("active_true");
 const notActiveUsers = [];
 const notActiveWrapperHTMLEl = document.getElementsByClassName("active_false");
+
+// modal
+const cardModalHTMLEl = document.getElementsByClassName("modal");
 
 const newParamethers = fetch(DATABASE)
   .then((res) => (json = res.json()))
@@ -95,7 +118,20 @@ const newParamethers = fetch(DATABASE)
       activeUsersWrapper.classList.add("active_user_card");
 
       activeWrapperHTMLEl[0].append(activeUsersWrapper);
-      activeUsersWrapper.innerHTML = `<h4>${user.name}</h4><ul><li>E-mal: ${user.email}</li><li>City: ${user.address.city}</li><li>Phone: ${user.phone}</li></ul>`;
+      activeUsersWrapper.innerHTML = `<h4>${user.name}</h4>`;
+      // <ul><li>E-mal: ${user.email}</li><li>City: ${user.address.city}</li><li>Phone: ${user.phone}</li></ul>;
+
+      activeUsersWrapper.addEventListener("click", function () {
+        cardModalHTMLEl[0].style.display = "block";
+        cardModalHTMLEl[0].innerHTML = `<p class='esc'>X</p><h4>${
+          user.name
+        }</h4><ul><li>Age: ${getAge(
+          new Date(),
+          user.birthday
+        )}</li><li>E-mal: ${user.email}</li><li>City: ${
+          user.address.city
+        }</li><li>Phone: ${user.phone}</li></ul>`;
+      });
     });
 
     notActiveUsers.map((user) => {
@@ -103,7 +139,20 @@ const newParamethers = fetch(DATABASE)
       notActiveUsersWrapper.classList.add("not_active_user_card");
 
       notActiveWrapperHTMLEl[0].append(notActiveUsersWrapper);
-      notActiveUsersWrapper.innerHTML = `<h4>${user.name}</h4><ul><li>E-mal: ${user.email}</li><li>City: ${user.address.city}</li><li>Phone: ${user.phone}</li></ul>`;
+      notActiveUsersWrapper.innerHTML = `<h4>${user.name}</h4>`;
+      // <ul><li>E-mal: ${user.email}</li><li>City: ${user.address.city}</li><li>Phone: ${user.phone}</li></ul>
+
+      notActiveUsersWrapper.addEventListener("click", function () {
+        cardModalHTMLEl[0].style.display = "block";
+        cardModalHTMLEl[0].innerHTML = `<p class='esc'>X</p><h4>${
+          user.name
+        }</h4><ul><li>Age: ${getAge(
+          new Date(),
+          user.birthday
+        )}</li><li>E-mal: ${user.email}</li><li>City: ${
+          user.address.city
+        }</li><li>Phone: ${user.phone}</li></ul>`;
+      });
     });
 
     // stampare le card di driver license
@@ -113,11 +162,24 @@ const newParamethers = fetch(DATABASE)
         const _10Wrapper = document.createElement("div");
         _10Wrapper.classList.add("driver_less_ten_card");
         lessTenHTMLEl[0].append(_10Wrapper);
-        _10Wrapper.innerHTML = `<h4>${
-          user.name
-        }</h4><ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
-          user.address.city
-        }</li><li>Phone: ${user.phone}</li></ul>`;
+
+        _10Wrapper.innerHTML = `<h4>${user.name}</h4>`;
+
+        // <ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
+        //   user.address.city
+        // }</li><li>Phone: ${user.phone}</li></ul>;
+
+        _10Wrapper.addEventListener("click", function () {
+          cardModalHTMLEl[0].style.display = "block";
+          cardModalHTMLEl[0].innerHTML = `<p class='esc'>X</p><h4>${
+            user.name
+          }</h4><ul><li>Age: ${getAge(
+            new Date(),
+            user.birthday
+          )}</li><li>E-mal: ${user.email}</li><li>City: ${
+            user.address.city
+          }</li><li>Phone: ${user.phone}</li><li>user.</li></ul>`;
+        });
       });
     } else {
       const _10Wrapper = document.createElement("div");
@@ -131,11 +193,24 @@ const newParamethers = fetch(DATABASE)
         const _10_20Wrapper = document.createElement("div");
         _10_20Wrapper.classList.add("driver_less_twenty_card");
         betwnTenAndTwentyHTMLEl[0].append(_10_20Wrapper);
-        _10_20Wrapper.innerHTML = `<h4>${
-          user.name
-        }</h4><ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
-          user.address.city
-        }</li><li>Phone: ${user.phone}</li></ul>`;
+
+        _10_20Wrapper.innerHTML = `<h4>${user.name}</h4>`;
+
+        // <ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
+        //   user.address.city
+        // }</li><li>Phone: ${user.phone}</li></ul>;
+
+        _10_20Wrapper.addEventListener("click", function () {
+          cardModalHTMLEl[0].style.display = "block";
+          cardModalHTMLEl[0].innerHTML = `<p class='esc'>X</p><h4>${
+            user.name
+          }</h4><ul><li>Age: ${getAge(
+            new Date(),
+            user.birthday
+          )}</li><li>E-mal: ${user.email}</li><li>City: ${
+            user.address.city
+          }</li><li>Phone: ${user.phone}</li></ul>`;
+        });
       });
     } else {
       const _10_20Wrapper = document.createElement("div");
@@ -148,12 +223,25 @@ const newParamethers = fetch(DATABASE)
       _20.map((user) => {
         const _20Wrapper = document.createElement("div");
         _20Wrapper.classList.add("driver_more_twenty_card");
+
         moreTwentyHTMLEl[0].append(_20Wrapper);
-        _20Wrapper.innerHTML = `<h4>${
-          user.name
-        }</h4><ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
-          user.address.city
-        }</li><li>Phone: ${user.phone}</li></ul>`;
+        _20Wrapper.innerHTML = `<h4>${user.name}</h4>`;
+
+        // <ul><li>Driver license: ${user.driverLicenseIss.toDateString()}</li><li>City: ${
+        //   user.address.city
+        // }</li><li>Phone: ${user.phone}</li></ul>;
+
+        _20Wrapper.addEventListener("click", function () {
+          cardModalHTMLEl[0].style.display = "block";
+          cardModalHTMLEl[0].innerHTML = `<p class='esc'>X</p><h4>${
+            user.name
+          }</h4><ul><li>Age: ${getAge(
+            new Date(),
+            user.birthday
+          )}</li><li>E-mal: ${user.email}</li><li>City: ${
+            user.address.city
+          }</li><li>Phone: ${user.phone}</li></ul>`;
+        });
       });
     } else {
       const _20Wrapper = document.createElement("div");
@@ -161,4 +249,10 @@ const newParamethers = fetch(DATABASE)
       moreTwentyHTMLEl[0].append(_20Wrapper);
       _20Wrapper.innerHTML = `<h5>Nessun utente trovato che soddisfi i requisiti</h5>`;
     }
+
+    cardModalHTMLEl[0].addEventListener("click", function (event) {
+      if (event.target.tagName === "P") {
+        cardModalHTMLEl[0].style.display = "none";
+      }
+    });
   });
